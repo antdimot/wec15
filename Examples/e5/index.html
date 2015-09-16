@@ -1,0 +1,27 @@
+<!--  ngController, $scope, $watch -->
+
+<html ng-app="magicApp">
+<head>
+    <meta charset="utf-8">
+    <title>Example - the controller</title>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('magicApp', []);
+        app.controller('NameController', ['$scope', function ($scope) {
+            $scope.firstName = 'Antonio';
+            $scope.lastName = 'Di Motta';
+
+            $scope.$watch('lastName', function(newValue, oldValue){
+                console.log('new value is ' + newValue);
+            });
+        }]);
+    </script>
+</head>
+<body ng-controller="NameController">
+Type your first name:<input ng-model="firstName" type="text"/>
+<br>
+Type your last name:<input ng-model="lastName" type="text"/>
+<br>
+Hello {{firstName}} {{lastName}}
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- ngRepeat -->
+
+<html ng-app="magicApp">
+<head>
+    <meta charset="utf-8">
+    <title>Example - the repeat</title>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('magicApp', []);
+        app.controller('NameController', ['$scope', function ($scope) {
+            $scope.names = ['Antonio', 'Ugo', 'Simone'];
+
+            $scope.addName = function() {
+                if($scope.names.indexOf($scope.enteredName)==-1)
+                {
+                    $scope.names.push($scope.enteredName);
+                    $scope.enteredName = '';
+                }
+            };
+
+            $scope.removeName = function(name) {
+                var i = $scope.names.indexOf(name);
+                $scope.names.splice(i, 1);
+            };
+        }]);
+    </script>
+</head>
+<body ng-controller="NameController">
+<ul>
+    <li ng-repeat="name in names">{{name}}
+        <a href="" ng-click="removeName(name)">remove</a>
+    </li>
+</ul>
+<form ng-submit="addName()">
+    <input type="text" ng-model="enteredName">
+    <input type="submit" value="add">
+</form>
+</body>
+</html>
