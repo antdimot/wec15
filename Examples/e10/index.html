@@ -1,0 +1,62 @@
+<html ng-app="magicApp">
+<head>
+    <meta charset="utf-8">
+    <title>Example - routing</title>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/angular-route/angular-route.min.js"></script>
+    <script>
+        var app = angular.module('magicApp', ['ngRoute']);
+
+        app.config(['$routeProvider',
+            function($routeProvider) {
+                $routeProvider.
+                    when('/home', {
+                        templateUrl: 'home-view.html',
+                        controller: 'HomeController'
+                    }).
+                    when('/detail/:id', {
+                        templateUrl: 'detail-view.html',
+                        controller: 'DetailController'
+                    }).
+                    otherwise({
+                        redirectTo: '/home'
+                    });
+            }]);
+
+        app.factory('userService',['$http',function($http){
+            return {
+                list: function(callback){
+                    $http.get('users.json').success(callback);
+                },
+                getById: function(callback,id){
+                    $http.get('users.json').success(function(data) {
+                        callback(data.filter(function(entry) {
+                            return entry.id == id
+                        })[0]);
+                    });
+                }
+            };
+        }]);
+
+        app.controller('HomeController',['$scope','userService',
+            function ($scope, userService) {
+                userService.list(function(data) {
+                    $scope.users = data;
+                });
+        }])
+
+        app.controller('DetailController',['$scope','userService','$routeParams',
+            function ($scope,userService,$routeParams ) {
+                userService.getById(function(data) {
+                    $scope.user = data;
+                }, $routeParams.id);
+        }])
+
+    </script>
+</head>
+<body>
+
+<div ng-view></div>
+
+</body>
+</html>

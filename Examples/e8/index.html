@@ -31,22 +31,9 @@
 
         app.controller('DetailController',['$scope','$http', '$routeParams',function ($scope,$http,$routeParams ) {
             $http.get('users.json').success(function(data) {
-                $scope.users = data;
-
-                function searchById(item,index,array)
-                {
-                    if(item.id==this)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
-
-                var user = data.find(searchById,$routeParams.id);
-
-                $scope.firstname = user.firstname;
-                $scope.lastname = user.lastname;
+                $scope.user = data.filter(function(entry) {
+                    return entry.id == $routeParams.id
+                })[0];
             });
         }])
 

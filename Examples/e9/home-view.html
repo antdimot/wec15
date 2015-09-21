@@ -1,0 +1,9 @@
+<h2>User list</h2>
+
+<ul>
+    <li ng-repeat="user in users | filter:query">
+        <a href="#/detail/{{user.id}}">
+            {{user.firstname}}
+        </a>
+    </li>
+</ul>
