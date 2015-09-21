@@ -2,16 +2,16 @@
   "name": "Examples",
   "version": "0.1.0",
   "authors": [
-    "antdimot <antonio.dimotta@gmail.com>"
+    "<antonio.dimotta@gmail.com>"
   ],
   "description": "AngularJS WEC2015",
   "keywords": [
-    "angukarjs"
+    "angularjs"
   ],
   "license": "MIT",
   "dependencies": {
-    "angular": "1.4.5",
-    "angular-ui-router": "~0.2.15",
+    "angular": "1.4.6",
+    "angular-route": "1.4.6",
     "jquery": "~2.1.4"
   }
 }

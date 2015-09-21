@@ -1,36 +1,60 @@
 <html ng-app="magicApp">
 <head>
     <meta charset="utf-8">
-    <title>Angular.js Example</title>
+    <title>Example - routing</title>
     <script src="../bower_components/angular/angular.min.js"></script>
-    <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="../bower_components/angular-route/angular-route.min.js"></script>
     <script>
         var app = angular.module('magicApp', ['ngRoute']);
-        app.config(function($routeProvider) {
-            $routeProvider.
-                    when('/', {
-                        template: '<ul><li ng-repeat="country in countries">{{country.name}}</li><ul>',
-                        controller: 'CountryListCtrl'
+
+        app.config(['$routeProvider',
+            function($routeProvider) {
+                $routeProvider.
+                    when('/home', {
+                        templateUrl: 'home-view.html',
+                        controller: 'HomeController'
                     }).
-                    when('/:countryName', {
-                        template: '<h1>TODO create country detail view</h1>',
-                        controller: 'CountryDetailCtrl'
+                    when('/detail/:id', {
+                        templateUrl: 'detail-view.html',
+                        controller: 'DetailController'
                     }).
                     otherwise({
-                        redirectTo: '/'
+                        redirectTo: '/home'
                     });
-        });
-        countryApp.controller('CountryListCtrl', function ($scope, $http){
-            $http.get('countries.json').success(function(data) {
-                $scope.countries = data;
+            }]);
+
+        app.controller('HomeController',['$scope','$http',function ($scope, $http) {
+            $http.get('users.json').success(function(data) {
+                $scope.users = data;
             });
-        });
-        countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams){
-            console.log($routeParams);
-        });
+        }])
+
+        app.controller('DetailController',['$scope','$http', '$routeParams',function ($scope,$http,$routeParams ) {
+            $http.get('users.json').success(function(data) {
+                $scope.users = data;
+
+                function searchById(item,index,array)
+                {
+                    if(item.id==this)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                var user = data.find(searchById,$routeParams.id);
+
+                $scope.firstname = user.firstname;
+                $scope.lastname = user.lastname;
+            });
+        }])
+
     </script>
 </head>
 <body>
+
 <div ng-view></div>
+
 </body>
 </html>
